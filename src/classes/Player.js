@@ -12,7 +12,7 @@ class Player extends Sprite {
     this.position = position;
     this.velocity = {
       x: 0,
-      y: 1,
+      y: 0,
     };
     // this.width = 25;
     // this.height = 25;
@@ -45,12 +45,8 @@ class Player extends Sprite {
       this.animations[key].image = image;
     }
     this.lastDirection = "right";
+    this.health = new Health();
   }
-
-  //   draw() {
-  //     c.fillStyle = "red";
-  //     c.fillRect(this.position.x, this.position.y, this.width, this.height);
-  //   }
 
   switchSprite(key) {
     if (this.image === this.animations[key].image) return;
@@ -161,18 +157,20 @@ class Player extends Sprite {
     for (let i = 0; i < this.collisionBlocks.length; i++) {
       const collisionBlock = this.collisionBlocks[i];
       if (detectCollision({ object1: this.hitbox, object2: collisionBlock })) {
-        if (this.velocity.y > 0) {
+        if (this.velocity.y >= 0) {
           this.velocity.y = 0;
           const offset =
             this.hitbox.position.y - this.position.y + this.hitbox.height;
           this.position.y = collisionBlock.position.y - offset - 0.01;
+          return true;
           break;
         }
-        if (this.velocity.y < 0) {
+        if (this.velocity.y <= 0) {
           this.velocity.y = 0;
           const offset = this.hitbox.position.y - this.position.y;
           this.position.y =
             collisionBlock.position.y + collisionBlock.height - offset + 0.01;
+          return true;
           break;
         }
       }
@@ -187,25 +185,24 @@ class Player extends Sprite {
           object2: platformCollisionBlock,
         })
       ) {
-        if (this.velocity.y > 0) {
+        if (this.velocity.y >= 0) {
           this.velocity.y = 0;
+
           const offset =
             this.hitbox.position.y - this.position.y + this.hitbox.height;
           this.position.y = platformCollisionBlock.position.y - offset - 0.01;
+          return true;
           break;
         }
       }
     }
+    return false;
   }
 
   update() {
     this.updateFrame();
     this.updateHitBox();
     this.updateCamreBox();
-
-    // // draw player box
-    // c.fillStyle = "rgba(0,255,0,0.3)";
-    // c.fillRect(this.position.x, this.position.y, this.width, this.height);
 
     // // draw hitbox
     // c.fillStyle = "rgba(255,0,0,0.2)";
@@ -218,16 +215,7 @@ class Player extends Sprite {
 
     // draw player (using sprite image class)
     this.draw();
-
-    // // draw camera
-    // c.fillStyle = "rgba(0,0,255,0.2)";
-    // c.fillRect(
-    //   this.cameraBox.position.x,
-    //   this.cameraBox.position.y,
-    //   this.cameraBox.width,
-    //   this.cameraBox.height
-    // );
-
+    this.checkForHorizontalCanvasCollision();
     this.position.x += this.velocity.x;
     this.updateHitBox();
     this.checkForHorizontalCollision();

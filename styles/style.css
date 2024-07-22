@@ -1,3 +1,78 @@
-*{
-    background-color: black;
-}
+body, html {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #000;
+  }
+  #game-container {
+    position: relative;
+    width: 800px; /* Adjust as needed */
+    height: 600px; /* Adjust as needed */
+  }
+  #game-window {
+    width: 100%;
+    height: 100%;
+    background-color: #222;
+  }
+  #overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1;
+  }
+  #startButton {
+    padding: 20px 40px;
+    font-size: 24px;
+    color: #fff;
+    background-color: #007BFF;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  #startButton:hover {
+    background-color: #0056b3;
+  }
+
+  #health-bar-container {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    width: 200px; /* Adjust width as needed */
+    height: 20px; /* Adjust height as needed */
+    background-color: #ccc;
+    border: 1px solid #000;
+  }
+  
+  #health-bar {
+    height: 100%;
+    background-color: green;
+    width: 100%; /* This will be adjusted with JavaScript */
+  }
+
+  #death-screen {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    background: rgba(0, 0, 0, 0.7);
+    color: white;
+    padding: 20px;
+    border-radius: 10px;
+  }
+
+  .hidden {
+    display: none;
+  }
